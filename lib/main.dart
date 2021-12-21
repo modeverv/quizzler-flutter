@@ -25,6 +25,13 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  Widget buildRowColumnWidget(bool check) {
+    return Icon(check ? Icons.check : Icons.close,
+        color: check ? Colors.green : Colors.red);
+  }
+
+  List<Widget> scoreKeeper = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -62,6 +69,9 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+                setState(() {
+                  scoreKeeper.add(buildRowColumnWidget(true));
+                });
               },
             ),
           ),
@@ -80,11 +90,16 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                setState(() {
+                  scoreKeeper.add(buildRowColumnWidget(false));
+                });
               },
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
+        Row(
+          children: scoreKeeper,
+        )
       ],
     );
   }
