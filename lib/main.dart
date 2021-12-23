@@ -36,6 +36,11 @@ class _QuizPageState extends State<QuizPage> {
     'Approximately one quarter of human bones are in the feet.',
     'A slug\'s blood is green.',
   ];
+  List<bool> answers = [
+    false,
+    true,
+    false,
+  ];
   int questionNumber = 0;
 
   @override
@@ -75,6 +80,11 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
+                if (answers[questionNumber] == true) {
+                  print('right answer');
+                } else {
+                  print('wrong answer');
+                }
                 setState(() {
                   scoreKeeper.add(buildRowColumnWidget(true));
                   questionNumber++;
@@ -98,6 +108,11 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                if (answers[questionNumber] == false) {
+                  print('right answer');
+                } else {
+                  print('wrong answer');
+                }
                 setState(() {
                   scoreKeeper.add(buildRowColumnWidget(false));
                   questionNumber++;
