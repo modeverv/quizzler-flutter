@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/quiz_brain.dart';
+
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() => runApp(Quizzler());
 
@@ -31,16 +36,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   List<Widget> scoreKeeper = [];
-  List<String> questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.',
-  ];
-  List<bool> answers = [
-    false,
-    true,
-    false,
-  ];
+
   int questionNumber = 0;
 
   @override
@@ -55,7 +51,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                quizBrain.questions[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -80,7 +76,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked true.
-                if (answers[questionNumber] == true) {
+                if (quizBrain.questions[questionNumber].questionAnswer ==
+                    true) {
                   print('right answer');
                 } else {
                   print('wrong answer');
@@ -88,7 +85,7 @@ class _QuizPageState extends State<QuizPage> {
                 setState(() {
                   scoreKeeper.add(buildRowColumnWidget(true));
                   questionNumber++;
-                  questionNumber = questionNumber % questions.length;
+                  questionNumber = questionNumber % quizBrain.questions.length;
                 });
               },
             ),
@@ -108,7 +105,8 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                if (answers[questionNumber] == false) {
+                if (quizBrain.questions[questionNumber].questionAnswer ==
+                    false) {
                   print('right answer');
                 } else {
                   print('wrong answer');
@@ -116,7 +114,7 @@ class _QuizPageState extends State<QuizPage> {
                 setState(() {
                   scoreKeeper.add(buildRowColumnWidget(false));
                   questionNumber++;
-                  questionNumber = questionNumber % questions.length;
+                  questionNumber = questionNumber % quizBrain.questions.length;
                 });
               },
             ),
