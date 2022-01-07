@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'quiz_brain.dart';
 
@@ -33,6 +34,39 @@ class _QuizPageState extends State<QuizPage> {
   Widget buildRowColumnWidget(bool check) {
     return Icon(check ? Icons.check : Icons.close,
         color: check ? Colors.green : Colors.red);
+  }
+
+  void checkAnswer(bool userPickedAnswer) {
+    setState(() {
+      //The user picked true.
+      if (quizBrain.checkQuestionAnswer(userPickedAnswer)) {
+        scoreKeeper.add(buildRowColumnWidget(true));
+        print('right answer');
+      } else {
+        scoreKeeper.add(buildRowColumnWidget(false));
+        print('wrong answer');
+      }
+
+      bool nextIsExist = quizBrain.nextQuestion();
+      if (!nextIsExist) {
+        Alert(
+          context: context,
+          title: "ALERT",
+          desc: "Finish",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+        ).show();
+        this.scoreKeeper.clear();
+      }
+    });
   }
 
   List<Widget> scoreKeeper = [];
@@ -73,16 +107,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
-                if (quizBrain.checkQuestionAnswer(true)) {
-                  print('right answer');
-                } else {
-                  print('wrong answer');
-                }
-                setState(() {
-                  scoreKeeper.add(buildRowColumnWidget(true));
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(true);
               },
             ),
           ),
@@ -101,15 +126,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                if (quizBrain.checkQuestionAnswer(false)) {
-                  print('right answer');
-                } else {
-                  print('wrong answer');
-                }
-                setState(() {
-                  scoreKeeper.add(buildRowColumnWidget(false));
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
             ),
           ),

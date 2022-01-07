@@ -11,10 +11,14 @@ class QuizBrain {
     Question(q: 'A slug\'s blood is green.', a: false),
   ];
 
-  void function nextQuestion() {
+  bool nextQuestion() {
     _questionNumber++;
-    _questionNumber =
-        _questionNumber % getQuestionLength();
+    if (_questionNumber >= _questions.length) {
+      _questionNumber = 0;
+      return false;
+    } else {
+      return true;
+    }
   }
 
   String getQuestionText() {
